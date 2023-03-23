@@ -43,6 +43,7 @@ with pyLSV2.LSV2("192.168.56.102", port=19000, timeout=5, safe_mode=False) as co
                 "successfulle read %d signals with %d values each"
                 % (len(signal_readings), readings_per_signal)
             )
+            recording_start_time = datetime.now()
 
             for i in range(readings_per_signal):
                 # Signal_type = sample[# appending rank]["data"][one_smaple]
