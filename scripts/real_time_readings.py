@@ -4,6 +4,7 @@
 import sys
 import logging
 import pyLSV2
+from datetime import datetime, timedelta
 
 logging.basicConfig(level=logging.WARNING)
 
@@ -24,6 +25,7 @@ with pyLSV2.LSV2("192.168.56.102", port=19000, timeout=5, safe_mode=False) as co
 
     duration = 10
     interval = 3000
+    time_counter = 0
 
     print("selected signals:")
     for sig in selected_signals:
@@ -66,11 +68,15 @@ with pyLSV2.LSV2("192.168.56.102", port=19000, timeout=5, safe_mode=False) as co
                 # velocity_X = round(signal_readings[3].data[i]*0.0953652489,3)
                 # acceleration_X = round(signal_readings[4].data[i]*0.5299145299,3)
                 readings_counter += readings_per_signal
-
-                # print(f"Position X = {Position_X} mm , Position Y = {Position_Y} , Position Z = {Position_Z} , Velocity X = {Velocity_X} mm/min, Acceleration X = {Accelera_X} mm/s^2")
+                if time_counter <= 30:
+                    time_counter +=1
+                else:
+                    time_counter = 0
+                
+                # print(f"{reading_time} ; Position X = {Position_X} mm , Position Y = {Position_Y} , Position Z = {Position_Z} , Velocity X = {Velocity_X} mm/min, Acceleration X = {Accelera_X} mm/s^2")
                 fp.write(
-                    "Position X = %f mm , Position Y = %f , Position Z = %f\n"
-                    % (position_X, position_Y, position_Z)
+                    "%s , Position X = %f mm , Position Y = %f , Position Z = %f\n"
+                    % (reading_time, position_X, position_Y, position_Z)
                 )
 
     print("a total of %d readings were taken" % readings_counter)
