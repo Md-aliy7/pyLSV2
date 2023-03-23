@@ -49,7 +49,8 @@ with pyLSV2.LSV2("192.168.56.102", port=19000, timeout=5, safe_mode=False) as co
                 # for signal in signal_readings:
                 #    value = (signal.data[i] * signal.factor) + signal.offset
                 #    print(value, signal.unit)
-
+                
+                reading_time = recording_start_time + time_counter * timedelta(microseconds=interval)
                 position_X = round(
                     signal_readings[0].data[i] * signal_readings[0].factor
                     + signal_readings[0].offset,
